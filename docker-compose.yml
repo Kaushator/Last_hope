@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  htx-analytics:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - HTX_API_KEY=${HTX_API_KEY}
+      - HTX_SECRET_KEY=${HTX_SECRET_KEY}
+      - GOOGLE_CLOUD_PROJECT=${GOOGLE_CLOUD_PROJECT}
+      - FINGPT_API_ENDPOINT=http://fingpt:8080
+    volumes:
+      - ./uploads:/app/uploads
+      - ./secrets:/app/secrets
+    depends_on:
+      - fingpt
+    networks:
+      - htx-network
+
+  fingpt:
+    build: ./docker/fingpt
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+    networks:
+      - htx-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  mcp-server:
+    image: node:18-alpine
+    working_dir: /app
+    volumes:
+      - ./mcp-server:/app
+    ports:
+      - "3001:3001"
+    command: npm start
+    networks:
+      - htx-network
+    depends_on:
+      - fingpt
+
+networks:
+  htx-network:
+    driver: bridge
+
+volumes:
+  uploads:
+  secrets:

@@ -1,0 +1,37 @@
+{
+  "name": "htx-analytics-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP Server for HTX Analytics - handles CSV, Docker, AI, and CI/CD operations",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "build": "echo 'No build step needed'",
+    "test": "jest"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "multer": "^1.4.5-lts.1",
+    "csv-parser": "^3.0.0",
+    "dockerode": "^4.0.0",
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1",
+    "winston": "^3.11.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2",
+    "jest": "^29.7.0"
+  },
+  "keywords": [
+    "mcp",
+    "server",
+    "htx",
+    "analytics",
+    "csv",
+    "docker",
+    "ai",
+    "cicd"
+  ]
+}
