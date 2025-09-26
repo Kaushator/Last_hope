@@ -1,0 +1,7 @@
+[mcp_servers]
+last_hope = { command = "node", args = ["server.js"], cwd = "/path/to/last_hope_mcp" }
+
+# CLI usage
+# - ./cli_setup.sh → локальная настройка + Terraform apply
+# - gh api repos/:owner/:repo → direct API calls
+# - spec apply spec.yml → применить GitHub конфиг

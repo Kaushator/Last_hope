@@ -1,0 +1,29 @@
+version: "1"
+resources:
+  secrets:
+    - name: GH_TOKEN
+      visibility: private
+      valueFrom: env:GH_TOKEN
+    - name: DOCKER_PASSWORD
+      visibility: private
+      valueFrom: env:DOCKER_PASSWORD
+  billing:
+    - copilot: enabled
+      alerts:
+        - threshold: 80%
+          notify: team-devops
+  projects:
+    - name: Last Hope Dev
+      description: "Tracking project tasks"
+      visibility: private
+      columns:
+        - To Do
+        - In Progress
+        - Done
+  issues:
+    - title: "Setup MCP Server"
+      body: "Ensure MCP server runs with lint + billing checks"
+      labels: [infra, mcp]
+    - title: "Configure Qoder agents"
+      body: "Implement csvAgent, infraAgent, ciAgent"
+      labels: [qoder, agents]

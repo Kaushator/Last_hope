@@ -1,0 +1,19 @@
+{
+  "agents": [
+    {
+      "name": "csvAgent",
+      "tasks": ["parse CSV", "summarize data"],
+      "entry": "src/agents/csvAgent.js"
+    },
+    {
+      "name": "infraAgent",
+      "tasks": ["docker build", "terraform apply"],
+      "entry": "src/agents/infraAgent.js"
+    },
+    {
+      "name": "ciAgent",
+      "tasks": ["generate tests", "lint code"],
+      "entry": "src/agents/ciAgent.js"
+    }
+  ]
+}
