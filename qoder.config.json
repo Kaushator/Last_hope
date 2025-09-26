@@ -14,6 +14,21 @@
       "name": "ciAgent",
       "tasks": ["generate tests", "lint code"],
       "entry": "src/agents/ciAgent.js"
+    },
+    {
+      "name": "htxAgent",
+      "tasks": ["verify keys", "fetch markets", "fetch candles", "parse excel", "summary"],
+      "entry": "src/agents/htxAgent.js"
+    },
+    {
+      "name": "finGPTAgent",
+      "tasks": ["build docker", "run local", "tf plan", "tf apply"],
+      "entry": "src/agents/finGPTAgent.js"
+    },
+    {
+      "name": "orchestratorAgent",
+      "tasks": ["build dataset", "call fingpt", "publish report", "e2e"],
+      "entry": "src/agents/orchestratorAgent.js"
     }
   ]
 }

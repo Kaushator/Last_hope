@@ -1,5 +1,16 @@
 [mcp_servers]
-last_hope = { command = "node", args = ["server.js"], cwd = "/path/to/last_hope_mcp" }
+last_hope = { command = "node", args = ["server.js"], cwd = "." }
+
+# Qoder MCP setup (example JSON to paste in Qoder MCP settings)
+{
+  "mcpServers": {
+    "last-hope": {
+      "command": "node",
+      "args": ["server.js"],
+      "cwd": "."
+    }
+  }
+}
 
 # CLI usage
 # - ./cli_setup.sh → локальная настройка + Terraform apply

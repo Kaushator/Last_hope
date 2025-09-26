@@ -61,6 +61,12 @@ terraform init && terraform apply -auto-approve
 - **Containerization**: Docker with Node.js 18 base image
 - **Infrastructure**: Terraform with Docker provider
 
+## Qoder Integration
+- Use Repo Wiki to prime knowledge (`.qoder/repowiki/`)
+- Enable Rules from `.qoder/rules/` (Always Apply, Model Decision, Specific Files)
+- Quest Mode: start with specs under `.qoder/quest/`
+- MCP: add local server via STDIO using `node server.js` (see `MCP_SETTINGS.txt`)
+
 ## AI Integration Notes
 
 - MCP server provides `/tests` endpoint for auto-generating Jest test stubs

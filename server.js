@@ -7,6 +7,11 @@ import { exec } from "child_process";
 const app = express();
 app.use(bodyParser.json());
 
+// === /health endpoint ===
+app.get("/health", (req, res) => {
+  res.json({ ok: true });
+});
+
 // === /tests endpoint ===
 app.post("/tests", async (req, res) => {
   const { code } = req.body;
