@@ -1,3 +1,9 @@
+# This specification file configures the "Last Hope" project.
+# Last Hope is a project utilizing Qoder agents for CI/CD, CSV processing,
+# and infrastructure management. It uses Terraform for infrastructure as code
+# and is containerized using Docker.
+description: "Specification for the Last Hope project, defining secrets, billing, projects, and issues."
+
 version: "1"
 resources:
   secrets:
