@@ -1,0 +1,44 @@
+{
+  "mcpServers": {
+    "last-hope-dev": {
+      "command": "npm",
+      "args": ["run", "dev"],
+      "cwd": "e:\\Last_hope",
+      "name": "Last Hope MCP Server (Development)",
+      "description": "HTX Analytics Server with Hot Reload",
+      "env": {
+        "NODE_ENV": "development",
+        "DEBUG": "mcp:*",
+        "ENABLE_HTX_API": "true",
+        "ENABLE_FINGPT": "true",
+        "ENABLE_GCS": "false",
+        "LOG_LEVEL": "debug",
+        "HOT_RELOAD": "true"
+      },
+      "timeout": 45000,
+      "restart": true,
+      "development": true,
+      "capabilities": {
+        "tools": [
+          "htx-market-data",
+          "csv-parsing", 
+          "fingpt-predictions",
+          "infrastructure-management",
+          "ci-automation",
+          "live-debugging"
+        ],
+        "resources": [
+          "analytics-reports",
+          "market-data",
+          "processed-csv-files",
+          "debug-logs"
+        ],
+        "features": [
+          "hot-reload",
+          "verbose-logging",
+          "development-tools"
+        ]
+      }
+    }
+  }
+}

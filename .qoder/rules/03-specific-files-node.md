@@ -1,3 +1,6 @@
+---
+trigger: manual
+---
 Specific Files — Node Server & Agents
 
 Files: server.js, src/**/*.js

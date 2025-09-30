@@ -1,3 +1,6 @@
+---
+trigger: manual
+---
 Always Apply — Project Rules
 
 - Use Node.js 18+, ESM modules (`type: module`).

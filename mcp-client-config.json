@@ -1,0 +1,67 @@
+{
+  "mcpServers": {
+    "MyLocalMCP": {
+      "command": "npx",
+      "args": ["my-mcp-server", "--port", "4000"],
+      "name": "Local MCP (command)",
+      "description": "Local MCP Server with custom tools",
+      "timeout": 30000,
+      "restart": true
+    },
+    "github": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      },
+      "timeout": 30000,
+      "restart": true
+    },
+    "fetch": {
+      "command": "uvx",
+      "args": [
+        "mcp-server-fetch"
+      ],
+      "timeout": 30000,
+      "restart": true
+    },
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp@latest"
+      ],
+      "timeout": 30000,
+      "restart": true
+    },
+    "postgres": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://localhost/mydb"
+      ],
+      "timeout": 30000,
+      "restart": true
+    },
+    "last-hope": {
+      "command": "node",
+      "args": ["server.js"],
+      "cwd": "e:\\Last_hope",
+      "name": "Last Hope MCP Server",
+      "description": "HTX Analytics and FinGPT Integration Server",
+      "env": {
+        "NODE_ENV": "development",
+        "ENABLE_HTX_API": "true",
+        "ENABLE_FINGPT": "true",
+        "ENABLE_GCS": "false",
+        "LOG_LEVEL": "info"
+      },
+      "timeout": 30000,
+      "restart": true
+    }
+  }
+}

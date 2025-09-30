@@ -6,7 +6,7 @@
     "ghcr.io/devcontainers/features/terraform:1": {},
     "ghcr.io/devcontainers/features/python:1": {}
   },
-  "postCreateCommand": "npm install && pip install uv",
+  "postCreateCommand": "npm install && pip install cryptography",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -15,6 +15,13 @@
         "ms-azuretools.vscode-docker",
         "hashicorp.terraform"
       ]
+    }
+  },
+  "forwardPorts": [4000],
+  "portsAttributes": {
+    "4000": {
+      "label": "MCP Server",
+      "onAutoForward": "notify"
     }
   }
 }

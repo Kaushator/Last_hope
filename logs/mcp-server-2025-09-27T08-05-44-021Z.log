@@ -1,0 +1,45 @@
+[2025-09-27T08:05:44.088Z] [DEBUG] Successfully read package.json from project root: E:\Last_hope\package.json
+[2025-09-27T08:05:44.088Z] [INFO] Using name from package.json: last_hope_mcp
+[2025-09-27T08:05:44.089Z] [DEBUG] Successfully read package.json from project root: E:\Last_hope\package.json
+[2025-09-27T08:05:44.089Z] [INFO] Using version from package.json: 1.0.0
+[2025-09-27T08:05:44.089Z] [INFO] Initializing MCP Server: last_hope_mcp@1.0.0
+[2025-09-27T08:05:44.089Z] [DEBUG] Initialized ToolLoader with directory: C:\Users\Fake0mg\AppData\Local\npm-cache\_npx\bbcce2fe225dfb22\node_modules\my-mcp-server\dist\tools
+[2025-09-27T08:05:44.089Z] [DEBUG] Initialized PromptLoader with directory: C:\Users\Fake0mg\AppData\Local\npm-cache\_npx\bbcce2fe225dfb22\node_modules\my-mcp-server\dist\prompts
+[2025-09-27T08:05:44.089Z] [DEBUG] Initialized ResourceLoader with directory: C:\Users\Fake0mg\AppData\Local\npm-cache\_npx\bbcce2fe225dfb22\node_modules\my-mcp-server\dist\resources
+[2025-09-27T08:05:44.089Z] [DEBUG] Looking for tools in: C:\Users\Fake0mg\AppData\Local\npm-cache\_npx\bbcce2fe225dfb22\node_modules\my-mcp-server\dist\tools
+[2025-09-27T08:05:44.090Z] [DEBUG] Looking for prompts in: C:\Users\Fake0mg\AppData\Local\npm-cache\_npx\bbcce2fe225dfb22\node_modules\my-mcp-server\dist\prompts
+[2025-09-27T08:05:44.090Z] [DEBUG] Looking for resources in: C:\Users\Fake0mg\AppData\Local\npm-cache\_npx\bbcce2fe225dfb22\node_modules\my-mcp-server\dist\resources
+[2025-09-27T08:05:44.090Z] [DEBUG] Attempting to load tools from: C:\Users\Fake0mg\AppData\Local\npm-cache\_npx\bbcce2fe225dfb22\node_modules\my-mcp-server\dist\tools
+[2025-09-27T08:05:44.091Z] [DEBUG] Found files in directory: ApiClientTool.js, DataProcessorTool.js, ExampleTool.js, FileHandlerTool.js, MyToolTool.js
+[2025-09-27T08:05:44.091Z] [DEBUG] Checking file ApiClientTool.js: included
+[2025-09-27T08:05:44.091Z] [DEBUG] Attempting to load tool from: C:\Users\Fake0mg\AppData\Local\npm-cache\_npx\bbcce2fe225dfb22\node_modules\my-mcp-server\dist\tools\ApiClientTool.js
+[2025-09-27T08:05:44.093Z] [DEBUG] Validated tool: api-client
+[2025-09-27T08:05:44.094Z] [DEBUG] Checking file DataProcessorTool.js: included
+[2025-09-27T08:05:44.094Z] [DEBUG] Attempting to load tool from: C:\Users\Fake0mg\AppData\Local\npm-cache\_npx\bbcce2fe225dfb22\node_modules\my-mcp-server\dist\tools\DataProcessorTool.js
+[2025-09-27T08:05:44.096Z] [DEBUG] Validated tool: data-processor
+[2025-09-27T08:05:44.096Z] [DEBUG] Checking file ExampleTool.js: included
+[2025-09-27T08:05:44.096Z] [DEBUG] Attempting to load tool from: C:\Users\Fake0mg\AppData\Local\npm-cache\_npx\bbcce2fe225dfb22\node_modules\my-mcp-server\dist\tools\ExampleTool.js
+[2025-09-27T08:05:44.098Z] [DEBUG] Validated tool: example_tool
+[2025-09-27T08:05:44.098Z] [DEBUG] Checking file FileHandlerTool.js: included
+[2025-09-27T08:05:44.098Z] [DEBUG] Attempting to load tool from: C:\Users\Fake0mg\AppData\Local\npm-cache\_npx\bbcce2fe225dfb22\node_modules\my-mcp-server\dist\tools\FileHandlerTool.js
+[2025-09-27T08:05:44.100Z] [DEBUG] Validated tool: file-handler
+[2025-09-27T08:05:44.100Z] [DEBUG] Checking file MyToolTool.js: included
+[2025-09-27T08:05:44.100Z] [DEBUG] Attempting to load tool from: C:\Users\Fake0mg\AppData\Local\npm-cache\_npx\bbcce2fe225dfb22\node_modules\my-mcp-server\dist\tools\MyToolTool.js
+[2025-09-27T08:05:44.102Z] [DEBUG] Validated tool: my-tool
+[2025-09-27T08:05:44.102Z] [DEBUG] Successfully loaded 5 tools: api-client, data-processor, example_tool, file-handler, my-tool
+[2025-09-27T08:05:44.102Z] [DEBUG] Attempting to load prompts from: C:\Users\Fake0mg\AppData\Local\npm-cache\_npx\bbcce2fe225dfb22\node_modules\my-mcp-server\dist\prompts
+[2025-09-27T08:05:44.103Z] [DEBUG] No prompts directory found
+[2025-09-27T08:05:44.103Z] [DEBUG] Attempting to load resources from: C:\Users\Fake0mg\AppData\Local\npm-cache\_npx\bbcce2fe225dfb22\node_modules\my-mcp-server\dist\resources
+[2025-09-27T08:05:44.103Z] [DEBUG] No resources directory found
+[2025-09-27T08:05:44.103Z] [DEBUG] No prompts directory found
+[2025-09-27T08:05:44.104Z] [DEBUG] No resources directory found
+[2025-09-27T08:05:44.104Z] [DEBUG] Creating MCP Server instance
+[2025-09-27T08:05:44.104Z] [DEBUG] Server created with capabilities: {"tools":{"enabled":true}}
+[2025-09-27T08:05:44.104Z] [INFO] Starting transport...
+[2025-09-27T08:05:44.104Z] [DEBUG] Creating transport: stdio
+[2025-09-27T08:05:44.104Z] [INFO] Starting stdio transport
+[2025-09-27T08:05:44.105Z] [INFO] Transport connected successfully
+[2025-09-27T08:05:44.105Z] [INFO] Started last_hope_mcp@1.0.0
+[2025-09-27T08:05:44.105Z] [INFO] Transport: stdio
+[2025-09-27T08:05:44.105Z] [INFO] Tools (5): api-client, data-processor, example_tool, file-handler, my-tool
+[2025-09-27T08:05:44.105Z] [INFO] Server running and ready for connections

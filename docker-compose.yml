@@ -1,0 +1,158 @@
+version: '3.8'
+
+services:
+  # MCP Server - Main application
+  mcp-server:
+    build:
+      context: .
+      target: production
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=development
+      - PORT=4000
+      - ENABLE_HTX_API=true
+      - ENABLE_FINGPT=true
+      - ENABLE_GCS=false
+      - SAVE_REPORTS=true
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+    volumes:
+      - ./logs:/app/logs
+      - ./reports:/app/reports
+      - ./data:/app/data
+      - ./secret.key:/app/secret.key:ro
+    networks:
+      - last-hope-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # FinGPT API Service (placeholder for ML service)
+  fingpt-api:
+    image: python:3.9-slim
+    ports:
+      - "8080:8080"
+    environment:
+      - PYTHONPATH=/app
+      - MODEL_PATH=/app/models
+      - LOG_LEVEL=info
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data
+    working_dir: /app
+    command: >
+      sh -c "
+        pip install flask tensorflow pandas numpy && 
+        python -c \"
+from flask import Flask, request, jsonify
+import json
+import time
+import random
+
+app = Flask(__name__)
+
+@app.route('/health')
+def health():
+    return {'status': 'healthy', 'timestamp': time.time()}
+
+@app.route('/predict', methods=['POST'])
+def predict():
+    data = request.get_json()
+    
+    # Mock FinGPT predictions
+    predictions = []
+    if data and 'markets' in data:
+        for market in data['markets'][:5]:
+            predictions.append({
+                'symbol': market['symbol'],
+                'direction': random.choice(['bullish', 'bearish', 'neutral']),
+                'confidence': round(random.uniform(0.5, 0.95), 2),
+                'target_price': market['price'] * random.uniform(0.9, 1.1),
+                'timeframe': '24h',
+                'reasoning': f'Technical analysis suggests {random.choice([\"strong momentum\", \"consolidation\", \"trend reversal\"])} for {market[\"symbol\"]}'
+            })
+    
+    return {
+        'predictions': predictions,
+        'model_version': 'fingpt-mock-v1.0',
+        'timestamp': time.time(),
+        'confidence_threshold': 0.7
+    }
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8080, debug=True)
+        \""
+    networks:
+      - last-hope-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # Redis for caching and session storage (optional)
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - last-hope-network
+    restart: unless-stopped
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+
+  # MinIO for local S3-compatible storage (GCS alternative for development)
+  minio:
+    image: minio/minio:latest
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=password123
+      - MINIO_DEFAULT_BUCKETS=last-hope-reports,last-hope-data
+    volumes:
+      - minio-data:/data
+    networks:
+      - last-hope-network
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Nginx reverse proxy and load balancer
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    networks:
+      - last-hope-network
+    restart: unless-stopped
+    depends_on:
+      - mcp-server
+      - fingpt-api
+
+volumes:
+  redis-data:
+  minio-data:
+
+networks:
+  last-hope-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

@@ -1,0 +1,34 @@
+{
+  "mcpServers": {
+    "last-hope": {
+      "command": "node",
+      "args": ["server.js"],
+      "cwd": "e:\\Last_hope",
+      "name": "Last Hope MCP Server",
+      "description": "HTX Analytics and FinGPT Integration Server",
+      "env": {
+        "NODE_ENV": "development",
+        "ENABLE_HTX_API": "true",
+        "ENABLE_FINGPT": "true",
+        "ENABLE_GCS": "false",
+        "LOG_LEVEL": "info"
+      },
+      "timeout": 30000,
+      "restart": true,
+      "capabilities": {
+        "tools": [
+          "htx-market-data",
+          "csv-parsing",
+          "fingpt-predictions",
+          "infrastructure-management",
+          "ci-automation"
+        ],
+        "resources": [
+          "analytics-reports",
+          "market-data",
+          "processed-csv-files"
+        ]
+      }
+    }
+  }
+}

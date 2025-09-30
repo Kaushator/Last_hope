@@ -1,3 +1,6 @@
+---
+trigger: manual
+---
 Model Decision — Generate and Run Tests
 
 Scenario: When changing or adding any `src/services/*` or `src/agents/*`, generate unit tests and run them locally.
