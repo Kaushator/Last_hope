@@ -1,0 +1,72 @@
+{
+  "mcpServers": {
+    "last-hope-quest": {
+      "command": "node",
+      "args": ["server.js"],
+      "cwd": "/workspaces/Last_hope",
+      "name": "Last Hope - Qoder Quest Mode",
+      "description": "Optimized MCP Server for Qoder Quest Mode in devContainer",
+      "env": {
+        "NODE_ENV": "development",
+        "QUEST_MODE": "true",
+        "DEBUG": "mcp:*",
+        "ENABLE_HTX_API": "${HTX_ACCESS_KEY}",
+        "ENABLE_FINGPT": "true", 
+        "ENABLE_GCS": "false",
+        "LOG_LEVEL": "debug",
+        "HOT_RELOAD": "true",
+        "CODESPACE_NAME": "${CODESPACE_NAME}",
+        "GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN": "${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}",
+        "SERVER_URL": "https://${CODESPACE_NAME}-4000.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}"
+      },
+      "timeout": 60000,
+      "restart": true,
+      "development": true,
+      "capabilities": {
+        "tools": [
+          "htx-market-data",
+          "htx-account-info",
+          "htx-trading",
+          "csv-parsing",
+          "csv-analysis", 
+          "fingpt-predictions",
+          "fingpt-analysis",
+          "infrastructure-management",
+          "infrastructure-monitoring",
+          "ci-automation",
+          "ci-deployment",
+          "live-debugging",
+          "quest-mode-tools"
+        ],
+        "resources": [
+          "analytics-reports",
+          "market-data",
+          "trading-signals",
+          "processed-csv-files",
+          "prediction-models",
+          "debug-logs",
+          "quest-mode-data"
+        ],
+        "features": [
+          "hot-reload",
+          "verbose-logging", 
+          "development-tools",
+          "quest-mode-optimizations",
+          "codespace-integration",
+          "qoder-ide-support"
+        ]
+      },
+      "questMode": {
+        "enabled": true,
+        "autoStart": true,
+        "healthCheckInterval": 30000,
+        "maxRetries": 3,
+        "optimizations": {
+          "caching": true,
+          "compression": true,
+          "requestBatching": true
+        }
+      }
+    }
+  }
+}

@@ -1,27 +1,59 @@
 {
-  "name": "HTX Analytics",
+  "name": "Last Hope - Qoder Quest Mode",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:18",
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:1": {},
     "ghcr.io/devcontainers/features/terraform:1": {},
-    "ghcr.io/devcontainers/features/python:1": {}
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.11"
+    },
+    "ghcr.io/devcontainers/features/git:1": {}
   },
-  "postCreateCommand": "npm install && pip install cryptography",
+  "postCreateCommand": "npm install && pip install cryptography && npm run setup:quest-mode",
   "customizations": {
     "vscode": {
       "extensions": [
         "GitHub.copilot",
         "GitHub.copilot-chat",
         "ms-azuretools.vscode-docker",
-        "hashicorp.terraform"
-      ]
+        "hashicorp.terraform",
+        "ms-vscode.vscode-json",
+        "bradlc.vscode-tailwindcss",
+        "esbenp.prettier-vscode"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": true
+        }
+      }
     }
   },
-  "forwardPorts": [4000],
+  "forwardPorts": [4000, 3000, 8080],
   "portsAttributes": {
     "4000": {
-      "label": "MCP Server",
-      "onAutoForward": "notify"
+      "label": "MCP Server - Quest Mode",
+      "onAutoForward": "notify",
+      "protocol": "http"
+    },
+    "3000": {
+      "label": "Development Server",
+      "onAutoForward": "openBrowser"
+    },
+    "8080": {
+      "label": "Debug Interface",
+      "onAutoForward": "silent"
     }
-  }
+  },
+  "remoteEnv": {
+    "NODE_ENV": "development",
+    "QUEST_MODE": "true",
+    "MCP_SERVER_URL": "https://psychic-pancake-g4wqqvwgv55vc9jj6-4000.app.github.dev",
+    "DEBUG": "mcp:*"
+  },
+  "workspaceFolder": "/workspaces/Last_hope",
+  "mounts": [
+    "source=qoder-quest-cache,target=/home/vscode/.cache,type=volume"
+  ]
 }
