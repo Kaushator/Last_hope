@@ -1,0 +1,55 @@
+# Last Hope MCP Server - Terraform Variables Template
+# Copy this file to terraform.tfvars and fill in your specific values
+
+# ========================================
+# GCP Project Configuration (REQUIRED)
+# ========================================
+project_id = "your-gcp-project-id"     # Replace with your GCP project ID
+region     = "us-central1"              # GCP region for resources
+zone       = "us-central1-a"            # GCP zone for resources
+
+# ========================================
+# Environment Configuration
+# ========================================
+environment = "dev"                     # Environment: dev, staging, prod
+image_tag   = "latest"                  # Docker image tag
+
+# ========================================
+# Cloud Run Scaling Configuration
+# ========================================
+# Development Environment
+min_instances = 0                       # Minimum instances (0 for dev)
+max_instances = 3                       # Maximum instances
+cpu_limit     = "500m"                  # CPU limit (500m for dev)
+memory_limit  = "256Mi"                 # Memory limit (256Mi for dev)
+
+# Staging Environment (uncomment for staging)
+# min_instances = 1
+# max_instances = 5
+# cpu_limit     = "1000m"
+# memory_limit  = "512Mi"
+
+# Production Environment (uncomment for production)
+# min_instances = 2
+# max_instances = 10
+# cpu_limit     = "2000m"
+# memory_limit  = "1Gi"
+
+cpu_idle = true                         # CPU allocation when idle
+
+# ========================================
+# Security Configuration (REQUIRED)
+# ========================================
+service_account_key_file = "service-account-key.json"    # Path to service account key
+
+# ========================================
+# Feature Flags
+# ========================================
+enable_monitoring = true                # Enable Cloud Monitoring and alerting
+enable_logging    = true                # Enable structured logging to Cloud Storage
+enable_secrets    = true                # Enable Secret Manager for API keys
+
+# ========================================
+# Legacy Compatibility
+# ========================================
+repo = "your-username/last-hope"        # GitHub repository path
