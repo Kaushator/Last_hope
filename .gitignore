@@ -18,3 +18,9 @@ Thumbs.db
 .qoder/repowiki/*
 !.qoder/repowiki/README.md
 
+# Test artifacts
+coverage/
+test-report.html
+
+# Local data storage
+data/

@@ -26,6 +26,9 @@ import * as infraAgent from './src/agents/infraAgent.js';
 import * as ciAgent from './src/agents/ciAgent.js';
 import * as orchestratorAgent from './src/agents/orchestratorAgent.js';
 
+// Service imports
+import { gcsService } from './src/services/gcs.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -169,28 +172,67 @@ app.get('/analytics/summary', async (req, res) => {
     // Feature flag checks
     const enableHTX = process.env.ENABLE_HTX_API !== 'false';
     const enableFinGPT = process.env.ENABLE_FINGPT !== 'false';
-    const enableGCS = process.env.ENABLE_GCS !== 'false';
+    const enableGCS = process.env.ENABLE_GCS === 'true';
+    const persist = req.query.persist === 'true';
     
-    let summary = { timestamp: new Date().toISOString() };
+    const reportId = `report-${Date.now()}`;
+    let summary = { 
+      reportId,
+      timestamp: new Date().toISOString(),
+      featureFlags: {
+        htx: enableHTX,
+        fingpt: enableFinGPT,
+        gcs: enableGCS
+      }
+    };
     
+    // Fetch HTX market data if enabled
     if (enableHTX) {
       try {
         summary.markets = await htxAgent.fetchMarkets();
       } catch (error) {
+        console.error('HTX API error:', error);
         summary.markets = { error: 'HTX API unavailable', mock: true };
       }
+    } else {
+      summary.markets = { disabled: true, message: 'HTX API is disabled' };
     }
     
+    // Fetch FinGPT predictions if enabled
     if (enableFinGPT) {
       try {
-        summary.predictions = await finGPTAgent.getPredictions();
+        // Check if we have market data to predict on
+        const inputData = summary.markets?.data || [];
+        summary.predictions = await finGPTAgent.getPredictions({ markets: inputData });
       } catch (error) {
+        console.error('FinGPT error:', error);
         summary.predictions = { error: 'FinGPT unavailable', fallback: 'statistical' };
+      }
+    } else {
+      summary.predictions = { disabled: true, message: 'FinGPT is disabled' };
+    }
+    
+    // Generate insights combining HTX and FinGPT data
+    summary.insights = {
+      generated: true,
+      summary: 'Combined HTX market data with FinGPT predictions',
+      recommendations: []
+    };
+    
+    // Persist to GCS if enabled and requested
+    if (enableGCS && persist) {
+      try {
+        const uploadResult = await gcsService.uploadJSON(reportId, summary);
+        summary.storage = uploadResult;
+      } catch (error) {
+        console.error('GCS upload error:', error);
+        summary.storage = { error: 'Failed to persist report', message: error.message };
       }
     }
     
     res.json(summary);
   } catch (error) {
+    console.error('Analytics summary error:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -198,10 +240,72 @@ app.get('/analytics/summary', async (req, res) => {
 app.get('/analytics/report/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const report = await orchestratorAgent.getReport(id);
-    res.json(report);
+    const enableGCS = process.env.ENABLE_GCS === 'true';
+    
+    // Try to fetch from GCS first if enabled
+    if (enableGCS) {
+      const report = await gcsService.downloadJSON(id);
+      if (report.success) {
+        return res.json(report.data);
+      }
+    }
+    
+    // Fallback to orchestrator agent
+    try {
+      const report = await orchestratorAgent.getReport(id);
+      res.json(report);
+    } catch (error) {
+      res.status(404).json({ 
+        error: 'Report not found', 
+        id: req.params.id,
+        message: 'Report not found in GCS or local storage'
+      });
+    }
   } catch (error) {
-    res.status(404).json({ error: 'Report not found', id: req.params.id });
+    console.error('Report retrieval error:', error);
+    res.status(500).json({ error: error.message, id: req.params.id });
+  }
+});
+
+// List all available reports
+app.get('/analytics/reports', async (req, res) => {
+  try {
+    const enableGCS = process.env.ENABLE_GCS === 'true';
+    
+    const reports = enableGCS 
+      ? await gcsService.listReports()
+      : await orchestratorAgent.listReports();
+    
+    res.json({
+      success: true,
+      count: reports.length,
+      reports,
+      source: enableGCS ? 'gcs' : 'local'
+    });
+  } catch (error) {
+    console.error('List reports error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Delete a specific report
+app.delete('/analytics/report/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const enableGCS = process.env.ENABLE_GCS === 'true';
+    
+    const result = enableGCS
+      ? await gcsService.deleteReport(id)
+      : await orchestratorAgent.deleteReport(id);
+    
+    if (result.success) {
+      res.json(result);
+    } else {
+      res.status(404).json(result);
+    }
+  } catch (error) {
+    console.error('Delete report error:', error);
+    res.status(500).json({ error: error.message });
   }
 });
 

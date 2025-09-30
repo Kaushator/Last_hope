@@ -2,7 +2,36 @@ Last Hope — Qoder + MCP Project
 
 Overview
 - Node.js MCP server + agent modules to automate HTX analytics and FinGPT integration.
+- **NEW**: Complete integration of HTX market data with FinGPT predictions and GCS storage.
 - Designed to work smoothly with Qoder Quest Mode and GitHub Copilot Coding Agent.
+
+## 🆕 Integration Features
+
+The platform now includes a complete integration layer:
+
+- **HTX Analytics**: Fetch real-time market data from HTX exchange
+- **FinGPT Predictions**: Generate AI-powered market predictions
+- **GCS Storage**: Persist reports to Google Cloud Storage or MinIO (local dev)
+- **Feature Flags**: Enable/disable components independently
+- **Flexible Storage**: Automatic fallback from GCS → MinIO → Local filesystem
+
+See [docs/INTEGRATION_GUIDE.md](docs/INTEGRATION_GUIDE.md) for complete documentation.
+
+### Quick Integration Test
+
+```bash
+# Start server with all features disabled (safe mode)
+ENABLE_HTX_API=false ENABLE_FINGPT=false ENABLE_GCS=false npm start
+
+# Generate analytics summary
+curl http://localhost:4000/analytics/summary
+
+# Generate and persist report
+curl http://localhost:4000/analytics/summary?persist=true
+
+# List all reports
+curl http://localhost:4000/analytics/reports
+```
 
 Prerequisites
 - Node.js 18+ and npm
@@ -22,6 +51,13 @@ Quick Start
   - `FERNET_MASTER_KEY` or use `tools/encrypt_api_key.py` to generate `secret.key` and encrypt HTX keys to files.
   - `GITHUB_TOKEN` if you use the `/billing` endpoint.
   - For GCP (optional in Phase 2): `GCP_PROJECT`, `GCS_BUCKET`, `GCP_SA_KEY` (JSON).
+- **NEW**: Feature flags for integration:
+  - `ENABLE_HTX_API=true` — Enable HTX market data fetching
+  - `ENABLE_FINGPT=false` — Enable FinGPT predictions
+  - `ENABLE_GCS=false` — Enable GCS storage (uses local fallback if false)
+  - `GCS_BUCKET_NAME=last-hope-analytics` — GCS bucket name
+  - `USE_MINIO=false` — Use MinIO for local development
+  - `LOCAL_STORAGE_PATH=./data/reports` — Local storage path
 
 3) Run MCP server
 - `npm start`
@@ -50,11 +86,14 @@ Quick Start
     }
 
 Project Structure
-- `server.js` — MCP server (Express)
+- `server.js` — MCP server (Express) with analytics endpoints
 - `src/agents/` — Qoder-facing helper modules
+- **NEW**: `src/services/gcs.js` — GCS storage service with local fallback
 - `tools/encrypt_api_key.py` — Fernet helper for secrets (Python)
 - `terraform/` — infra templates for Phase 2 (GCP-ready)
 - `.qoder/` — Qoder Quest Mode scaffolding
+- **NEW**: `docs/INTEGRATION_GUIDE.md` — Complete integration documentation
+- **NEW**: `test/integration/analytics.test.js` — Integration test suite (16 tests)
 
 Qoder Usage Cheatsheet
 - Quest Mode specs: `.qoder/quest/*.md`
