@@ -502,6 +502,8 @@ export function summary() {
         'e2e',
         'getReport',
         'getPipelineStatus',
+        'listReports',
+        'deleteReport',
         'summary'
       ],
       pipeline_stages: [
@@ -519,6 +521,57 @@ export function summary() {
     return {
       agent: 'orchestratorAgent',
       status: 'error',
+      error: error.message
+    };
+  }
+}
+
+/**
+ * List all reports in local storage
+ * @returns {Promise<Array>} List of report metadata
+ */
+export async function listReports() {
+  try {
+    const reports = Array.from(reportStorage.entries()).map(([id, data]) => ({
+      reportId: id,
+      timestamp: data.timestamp,
+      type: data.type || 'analytics',
+      size: JSON.stringify(data).length,
+      source: 'memory'
+    }));
+    
+    return reports;
+  } catch (error) {
+    console.error('List reports error:', error);
+    return [];
+  }
+}
+
+/**
+ * Delete a report from local storage
+ * @param {string} reportId - Report ID to delete
+ * @returns {Promise<Object>} Deletion result
+ */
+export async function deleteReport(reportId) {
+  try {
+    if (reportStorage.has(reportId)) {
+      reportStorage.delete(reportId);
+      return {
+        success: true,
+        reportId,
+        message: 'Report deleted from memory storage'
+      };
+    } else {
+      return {
+        success: false,
+        reportId,
+        message: 'Report not found in memory storage'
+      };
+    }
+  } catch (error) {
+    console.error('Delete report error:', error);
+    return {
+      success: false,
       error: error.message
     };
   }

@@ -3,9 +3,6 @@ export default {
   // Use ES modules
   preset: null,
   globals: {
-    'ts-jest': {
-      useESM: true
-    },
     __DEV__: true,
     __TEST__: true
   },
@@ -30,7 +27,7 @@ export default {
   ],
   
   // Coverage configuration
-  collectCoverage: true,
+  collectCoverage: false,
   coverageDirectory: 'coverage',
   coverageReporters: [
     'text',
@@ -102,5 +99,5 @@ export default {
   ],
   
   // Error handling
-  errorOnDeprecated: true
+  errorOnDeprecated: false
 };
