@@ -18,3 +18,7 @@ Thumbs.db
 .qoder/repowiki/*
 !.qoder/repowiki/README.md
 
+# Test coverage and reports
+coverage/
+test-report.html
+
