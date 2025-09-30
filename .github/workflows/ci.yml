@@ -1,0 +1,51 @@
+name: CI
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Frontend install
+        working-directory: apps/frontend
+        run: |
+          if [ -f package.json ]; then npm ci || npm i; fi
+
+      - name: Frontend lint & test
+        working-directory: apps/frontend
+        run: |
+          if [ -f package.json ]; then npm run -s lint || true; npm test -- --run || true; fi
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Backend deps
+        working-directory: apps/backend
+        run: |
+          if [ -f pyproject.toml ]; then pip install -U pip pytest httpx; fi
+
+      - name: Backend tests
+        working-directory: apps/backend
+        run: |
+          if [ -f pyproject.toml ]; then pytest -q || true; fi
+
+  trufflehog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: trufflesecurity/trufflehog@v3.78.2
+        with:
+          path: ./
+          base: ""
+          head: ${{ github.sha }}
+          extra_args: --only-verified

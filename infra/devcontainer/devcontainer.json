@@ -1,0 +1,22 @@
+{
+  "name": "LastHope Dev",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "features": {
+    "ghcr.io/devcontainers/features/python:1": { "version": "3.11" }
+  },
+  "runArgs": ["--gpus=all"],
+  "mounts": ["source=${localWorkspaceFolder}/:/workspaces/Last_hope"],
+  "postCreateCommand": "/workspaces/Last_hope/infra/devcontainer/postCreate.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "esbenp.prettier-vscode",
+        "ms-python.python",
+        "ms-python.vscode-pylance"
+      ]
+    }
+  },
+  "remoteEnv": { "QODER_TELEMETRY": "off" }
+}
