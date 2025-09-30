@@ -42,6 +42,21 @@ output "htx_secret_name" {
   value       = google_secret_manager_secret.htx_api_key.secret_id
 }
 
+output "htx_secret_secret_name" {
+  description = "HTX API secret secret name"
+  value       = google_secret_manager_secret.htx_api_secret.secret_id
+}
+
+output "openai_secret_name" {
+  description = "OpenAI API key secret name"
+  value       = google_secret_manager_secret.openai_api_key.secret_id
+}
+
+output "coingecko_secret_name" {
+  description = "CoinGecko API key secret name"
+  value       = google_secret_manager_secret.coingecko_api_key.secret_id
+}
+
 output "fernet_secret_name" {
   description = "Fernet encryption key secret name"
   value       = google_secret_manager_secret.fernet_key.secret_id
@@ -79,8 +94,11 @@ output "access_instructions" {
     Health Check: ${google_cloud_run_v2_service.last_hope.uri}/health
     
     🔑 To set up API keys:
-    1. Store HTX API key: gcloud secrets versions add ${google_secret_manager_secret.htx_api_key.secret_id} --data-file=-
-    2. Store Fernet key: gcloud secrets versions add ${google_secret_manager_secret.fernet_key.secret_id} --data-file=-
+    1. Store HTX API key: echo "your-htx-api-key" | gcloud secrets versions add ${google_secret_manager_secret.htx_api_key.secret_id} --data-file=-
+    2. Store HTX API secret: echo "your-htx-secret" | gcloud secrets versions add ${google_secret_manager_secret.htx_api_secret.secret_id} --data-file=-
+    3. Store OpenAI API key: echo "your-openai-key" | gcloud secrets versions add ${google_secret_manager_secret.openai_api_key.secret_id} --data-file=-
+    4. Store CoinGecko API key: echo "your-coingecko-key" | gcloud secrets versions add ${google_secret_manager_secret.coingecko_api_key.secret_id} --data-file=-
+    5. Generate Fernet key: python3 -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())" | gcloud secrets versions add ${google_secret_manager_secret.fernet_key.secret_id} --data-file=-
     
     📁 Data Storage: gs://${google_storage_bucket.last_hope_data.name}
     
